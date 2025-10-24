@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const SITE_KEY_TEST = "your-site-key";
+const SITE_KEY_TEST = import.meta.env.VITE_RECAPTCHA_V2_SITE;
 
 export const RecaptchaV2 = () => {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -15,16 +15,19 @@ export const RecaptchaV2 = () => {
 
     const token = recaptchaRef.current?.getValue();
     if (!token) {
-       setMsg("⚠️ reCAPTCHA not ready");
+      setMsg("⚠️ reCAPTCHA not ready");
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:3001/submit-with-captcha", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, token }),
-      });
+      const res = await fetch(
+        "http://localhost:3001/submit-with-recaptcha-v2",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, token }),
+        }
+      );
 
       const j = await res.json();
       console.log("🔍 reCAPTCHA result：", j);

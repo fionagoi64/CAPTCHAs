@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
-const HCAPTCHA_SITE_KEY = "your-site-key"; 
+const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE;
 
 export const Hcaptcha = () => {
   const hcaptchaRef = useRef<HCaptcha>(null);
@@ -36,8 +36,7 @@ export const Hcaptcha = () => {
   };
 
   return (
-
-      <div style={{ padding: 24 }}>
+    <div style={{ padding: 24 }}>
       <h2>With Hcaptcha</h2>
       <p>Hcaptcha Local Testing</p>
 
@@ -48,11 +47,11 @@ export const Hcaptcha = () => {
         </label>
 
         <div style={{ marginTop: 12 }}>
-         <HCaptcha
-        sitekey={HCAPTCHA_SITE_KEY}
-        ref={hcaptchaRef}
-        onVerify={setToken}
-      />
+          <HCaptcha
+            sitekey={HCAPTCHA_SITE_KEY}
+            ref={hcaptchaRef}
+            onVerify={setToken}
+          />
         </div>
 
         <div style={{ marginTop: 12 }}>
@@ -62,6 +61,5 @@ export const Hcaptcha = () => {
 
       <pre style={{ whiteSpace: "pre-wrap", marginTop: 12 }}>{msg}</pre>
     </div>
-   
   );
 };

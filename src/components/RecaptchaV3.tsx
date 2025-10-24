@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha,
+} from "react-google-recaptcha-v3";
 
-const SITE_KEY_V3 = "your-site-key";
+const SITE_KEY_V3 = import.meta.env.VITE_RECAPTCHA_V3_SITE;
 
 // Form component (uses hook)
 const RecaptchaV3Form = () => {
@@ -20,11 +23,14 @@ const RecaptchaV3Form = () => {
 
     try {
       const token = await executeRecaptcha("submit_form");
-      const res = await fetch("http://localhost:3001/submit-with-recaptcha-v3", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, token }),
-      });
+      const res = await fetch(
+        "http://localhost:3001/submit-with-recaptcha-v3",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, token }),
+        }
+      );
       const j = await res.json();
       setMsg(JSON.stringify(j, null, 2));
     } catch (err) {
